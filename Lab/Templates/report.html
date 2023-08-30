@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bill Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Patient Bill </h1>
+        <div>
+        <table class="table">
+       {% csrf_token %}
+            <thead value="{{ test.id }}" >
+                <tr>
+                    <th>Test Name</th>
+                    <th>Test Price</th>
+                    <th>Test Quantity</th>
+                    <th>Sub Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <div class="div">
+                    {% for tests in tests %}
+                    <tr>
+                        
+                        <td>{{ tests.name }}</td>
+                        <td>{{ tests.price }}</td>
+                        <td>{{ tests.quantity }}</td>
+                        <td>{{ tests.sub_total }}</td>
+                       
+                    </tr>
+                    {% endfor %}
+                </div>
+                <tr class="no-border">
+                        
+                    <td class="no-border"></td>
+                    <td class="no-border"></td>
+                    <td class="fw-bold fs-6 no-border">Total Amount</td>
+                    <td class="no-border">{{ total }}</td>
+                   
+                </tr>
+                
+            </tbody>
+        </table>
+        <div>
+        <a class="btn btn-secondary" href="{% url 'patient_register' %}">Back to Patient List</a>
+    </div>
+</body>
+</html>

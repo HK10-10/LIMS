@@ -1,0 +1,29 @@
+<h3>Tests:</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Test Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Subtotal</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for test in tests %}
+        <tr>
+            <td>{{ test.name }}</td>
+            <td>{{ test.price }}</td>
+            <td>{{ test.quantity }}</td>
+            <td>{{ test.status }}</td>
+            <td>{{ total }}</td>
+            <td>{{ test.value }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>Total Amount of Subtotals: {{ total }}</p>
+
+
+

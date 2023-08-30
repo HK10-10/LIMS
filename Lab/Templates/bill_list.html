@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bill Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h1>BillS </h1>
+        <div>
+        <table class="table">
+       {% csrf_token %}
+            <thead >
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Total</th>
+                    <th>Preview</th>
+                    <th>Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                <div class="div">
+                    {% for bill in bills %}
+                    <tr class="no-border">
+                        
+                        <td class="no-border">{{bill.bill.patient.name}}</td>
+                      
+                        <td class="no-border">{{bill.bill.total}}</td>
+                        <td class="no-border"><a href="{% url 'patient_dashboard' bill_id=bill.bill.id %}" class="btn btn-primary">PREVIEW Bill</a></td>
+                        <td class="no-border"><a href="{% url 'download_bill' bill_id=bill.bill.id %}" class="btn btn-primary">Download Bill</a></td>
+                        
+                       
+                    </tr>
+                    {% endfor %}
+                </div>
+
+
+
+                
+            </tbody>
+        </table>
+        <div>
+        <a class="btn btn-secondary" href="{ 'patient_register'}">Back to Patient List</a>
+    </div>
+</body>
+</html>

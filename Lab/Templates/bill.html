@@ -1,0 +1,127 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <img src="https://s3-ap-southeast-1.amazonaws.com/livehealthuser/images/CL-logo-green-black-text-1000px.svg"style="width:200px; height:65px">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div style=" position: absolute;right: 30px;" class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/register/">Registration</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/login/">Lab-Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/patient_login/">Patient-Login</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+
+    
+        <form method="post" action="">
+            {% csrf_token %}
+            
+            <label class="dropdown" for="patient_id">Select Patient:</label><br>
+            <select class="dropdown" name="patient_id">
+                {% for patient in patients %}
+                    <option class="dropdown-item" value="{{ patient.id }}">{{ patient.name }}</option>
+                {% endfor %}
+            </select><br><br>
+            
+            <div id="test-container">
+                <div class="test-entry row">
+                    <div class="col">
+                    <label class="form-label">Test Name:</label>
+                    <input class="form-control" type="text" name="test_name[]">
+                    </div>
+                    <div class="col">
+                    <label class="form-label">Test Price:</label>
+                    <input class="form-control" type="number" name="test_price[]">
+                    </div>
+                    <div class="col">
+                    <label class="form-label">Test Quantity:</label>
+                    <input class="form-control" type="number" name="test_quantity[]">
+                    </div>
+                </div>
+            </div>
+        
+            <button class="btn btn-primary" type="button" id="add-test">Add Another Test</button><br><br>
+        
+            <label class="form-label">Total: <span id="total-price">0</span></label><br>
+        
+            <input type="hidden" name="bill_id" value="{{ bills.id }}">
+        
+            <button class="btn btn-primary" type="submit">Bill</button>
+        </form>
+        
+
+    </div>
+    <script>
+        const testContainer = document.getElementById('test-container');
+        const addTestButton = document.getElementById('add-test');
+        const totalPriceElement = document.getElementById('total-price');
+    
+        let testIndex = 1;
+    
+        addTestButton.addEventListener('click', addTestEntry);
+    
+        function addTestEntry() {
+            const testEntry = document.createElement('div');
+            testEntry.className = 'test-entry row';
+    
+            testEntry.innerHTML = `
+                <div class="col">
+                <label class="form-label">Test Name:</label>
+                <input class="form-control" type="text" name="test_name[]">
+                </div>
+                <div class="col">
+                <label class="form-label">Test Price:</label>
+                <input class="form-control" type="number" name="test_price[]">
+                </div>
+                <div class="col">
+                <label class="form-label">Test Quantity:</label>
+                <input class="form-control" type="number" name="test_quantity[]">
+                </div>
+            `;
+    
+            testContainer.appendChild(testEntry);
+            testIndex++;
+        }
+      
+        testContainer.addEventListener('input', updateTotalPrice);
+
+        function updateTotalPrice() {
+        let total = 0;
+
+       
+        const testEntries = document.querySelectorAll('.test-entry');
+        testEntries.forEach(function(entry) {
+            const price = parseFloat(entry.querySelector('input[name="test_price[]"]').value);
+            const quantity = parseInt(entry.querySelector('input[name="test_quantity[]"]').value);
+            total += price * quantity;
+        });
+
+        totalPriceElement.textContent = total ? total.toFixed(2) : 0;
+    }
+    </script>
+</body>
+</html>
+
+
+  
